@@ -2,6 +2,11 @@
 #include <vector>
 #include <math.h>
 
+uint32_t innerExpCoeff(unsigned int i, unsigned int coeff)
+{
+  return (i * i) + (coeff * i);
+}
+
 std::vector<uint32_t> SieveEratosthenes(uint32_t input)
 {
   bool isprime[input + 1];
@@ -12,10 +17,12 @@ std::vector<uint32_t> SieveEratosthenes(uint32_t input)
     if (isprime[i] == true)
     {
       unsigned coeff = 0;
-      for (int j = (i * i) + (coeff * i); j < input; coeff++)
+      int j = innerExpCoeff(i, coeff); 
+      while (j < input)
       {
         isprime[j] = false;
-        j = (i * i) + (coeff * i);
+        coeff++;
+        j = innerExpCoeff(i, coeff);
       }
     }
   }
@@ -36,7 +43,7 @@ int main()
 {
   std::vector<uint32_t> primesOf99 = SieveEratosthenes(99);
   std::cout << "The primes of 99, found by Sieve of Eratosthenes\n\n";
-  for(auto p : primesOf99)
+  for (auto p : primesOf99)
   {
     std::cout << p << ", ";
   }
